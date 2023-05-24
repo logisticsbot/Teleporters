@@ -84,6 +84,15 @@ local make_rename_frame = function(player, caption)
   textfield.select_all()
   util.register_gui(data.button_actions, textfield, {type = "confirm_rename_textfield", textfield = textfield, flying_text = text, tag = param.tag})
 
+  local itembutton = frame.add{type = "choose-elem-button", elem_type = "item", tooltip = "Append a recipe icon" }
+  util.register_gui(data.button_actions, itembutton, {type = "choose_elem_changed", textfield = textfield, key = "item"})
+
+  local fluidbutton = frame.add{type = "choose-elem-button", elem_type = "fluid", tooltip = "Append a fluid icon" }
+  util.register_gui(data.button_actions, fluidbutton, {type = "choose_elem_changed", textfield = textfield, key = "fluid"})
+
+  local recipebutton = frame.add{type = "choose-elem-button", elem_type = "recipe", tooltip = "Append a recipe icon" }
+  util.register_gui(data.button_actions, recipebutton, {type = "choose_elem_changed", textfield = textfield, key = "recipe"})
+
   local confirm = frame.add{type = "sprite-button", sprite = "utility/enter", style = "tool_button", tooltip = {"gui-train-rename.perform-change"}}
   util.register_gui(data.button_actions, confirm, {type = "confirm_rename_button", textfield = textfield, flying_text = text, tag = param.tag})
 
@@ -405,6 +414,11 @@ local gui_actions =
 
     print("On cancel rename linked check")
     check_player_linked_teleporter(player)
+  end,
+  choose_elem_changed = function(event, param)
+    if event.name ~= defines.events.on_gui_elem_changed then return end
+
+    param.textfield.text = param.textfield.text .. "[" .. param.key .. "=" .. event.element.elem_value .. "]"
   end,
   confirm_rename_button = function(event, param)
     if event.name ~= defines.events.on_gui_click then return end
@@ -765,6 +779,7 @@ teleporters.events =
 
   [defines.events.on_gui_click] = on_gui_action,
   [defines.events.on_gui_text_changed] = on_gui_action,
+  [defines.events.on_gui_elem_changed] = on_gui_action,
   [defines.events.on_gui_confirmed] = on_gui_action,
   [defines.events.on_gui_closed] = on_gui_closed,
   [require("shared").hotkeys.focus_search] = on_search_focused,
