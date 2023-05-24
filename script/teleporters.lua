@@ -84,7 +84,7 @@ local make_rename_frame = function(player, caption)
   textfield.select_all()
   util.register_gui(data.button_actions, textfield, {type = "confirm_rename_textfield", textfield = textfield, flying_text = text, tag = param.tag})
 
-  local itembutton = frame.add{type = "choose-elem-button", elem_type = "item", tooltip = "Append a recipe icon" }
+  local itembutton = frame.add{type = "choose-elem-button", elem_type = "item", tooltip = "Append an item icon" }
   util.register_gui(data.button_actions, itembutton, {type = "choose_elem_changed", textfield = textfield, key = "item"})
 
   local fluidbutton = frame.add{type = "choose-elem-button", elem_type = "fluid", tooltip = "Append a fluid icon" }
